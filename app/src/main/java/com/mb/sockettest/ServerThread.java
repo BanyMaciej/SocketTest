@@ -1,7 +1,9 @@
 package com.mb.sockettest;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.DataInputStream;
@@ -19,6 +21,8 @@ import java.util.TimerTask;
 public class ServerThread extends Thread {
 
     Activity activity;
+
+    int Counter = 0;
 
     public ServerThread(Activity activity) {
         this.activity = activity;
@@ -48,11 +52,13 @@ public class ServerThread extends Thread {
                 int AMOUNT = inStream.readInt();
 
                 for( int i = 0; i < AMOUNT; i++ ) {
-                    inStream.readByte();
-                    outStream.writeByte(1);
+                    inStream.readChar();
+                    outStream.writeChar('a');
                 }
 
-                outStream.writeChar('s');
+                if( inStream.readChar() == 's' ) {
+                    startCounter();
+                }
             }
 
         } catch ( IOException e ) {
@@ -80,10 +86,41 @@ public class ServerThread extends Thread {
                 }
             }
         }
-
-
     }
 
+    private void startCounter() {
+
+        final Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            boolean colored = false;
+
+            @Override
+            public void run() {
+                Counter++;
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if( !colored ) {
+                            activity.findViewById(R.id.startButton).setBackgroundColor(Color.BLUE);
+                            colored = true;
+                        } else {
+                            activity.findViewById(R.id.startButton).setBackgroundColor(Color.WHITE);
+                            colored = false;
+                        }
+                    }
+                });
+                Log.d("TIME", Counter + "");
+            }
+        }, 0, 1000);
+
+        activity.findViewById(R.id.stopTimerBtn_Server).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timer.cancel();
+            }
+        });
+
+    }
 
 }
 

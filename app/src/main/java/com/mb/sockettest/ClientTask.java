@@ -1,7 +1,9 @@
 package com.mb.sockettest;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +24,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
 
     int SocketPORT = 4321;
-    String SocketAddress = "192.168.0.102";
+    String SocketAddress = "192.168.0.101";
 
     long timeDiff = -1;
     Activity callingActivity;
@@ -57,8 +59,8 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             int c = 0;
             for(int i = 0; i < AMOUNT; i++ ) {
                 long t1 = System.nanoTime();
-                outStream.writeByte(1);
-                inStream.readByte();
+                outStream.writeChar('a');
+                inStream.readChar();
                 long t2 = System.nanoTime();
                 long diff = t2-t1;
                 Log.d("DEBUG", "timeDiff: " + diff);
@@ -67,13 +69,11 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                     suma += diff;
                 }
             }
-            Log.d("DEBUG", c + ", average: " + (suma/c));
+            long avg = suma/c;
+            Log.d("DEBUG", c + ", average: " + avg);
 
-            if( inStream.readChar() == 's' ) {
-                startCounter();
-            }
-
-
+            outStream.writeChar('s');
+            startCounter((int) (avg/2000000));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -104,34 +104,37 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        callingActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(callingActivity, "timeDiff:" + timeDiff, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void startCounter() {
+    private void startCounter(int delay) {
 
         final Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
+            boolean colored = false;
             @Override
             public void run() {
                 Counter++;
-                Log.d("TIME", Counter + "");
+                callingActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if( !colored ) {
+                            callingActivity.findViewById(R.id.sendButton).setBackgroundColor(Color.BLUE);
+                            colored = true;
+                        } else {
+                            callingActivity.findViewById(R.id.sendButton).setBackgroundColor(Color.WHITE);
+                            colored = false;
+                        }
+                    }
+                });
+                Log.d("TIME-D", Counter + "");
             }
-        }, 0, 1000);
+        }, delay, 1000);
 
-        callingActivity.findViewById(R.id.stopTimerBtn).setOnClickListener(new View.OnClickListener() {
+        callingActivity.findViewById(R.id.stopTimerBtn_Client).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 timer.cancel();
             }
         });
+
 
     }
 }
