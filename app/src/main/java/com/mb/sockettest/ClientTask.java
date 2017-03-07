@@ -2,6 +2,7 @@ package com.mb.sockettest;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -24,12 +25,14 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
 
     int SocketPORT = 4321;
-    String SocketAddress = "192.168.0.101";
+    String SocketAddress = "192.168.0.102";
 
     long timeDiff = -1;
     Activity callingActivity;
 
     int Counter = 0;
+    MediaPlayer mPlayer;
+    Timer timer;
 
     public ClientTask(Activity activity) {
         callingActivity = activity;
@@ -50,6 +53,8 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         try {
             socket = new Socket(SocketAddress, SocketPORT);
             socket.setTcpNoDelay(true);
+
+            mPlayer = MediaPlayer.create(callingActivity, R.raw.tick);
 
             inStream = new DataInputStream(socket.getInputStream());
             outStream = new DataOutputStream(socket.getOutputStream());
@@ -105,13 +110,13 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void startCounter(int delay) {
-
-        final Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             boolean colored = false;
             @Override
             public void run() {
                 Counter++;
+                mPlayer.start();
                 callingActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -135,6 +140,10 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             }
         });
 
+    }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
     }
 }

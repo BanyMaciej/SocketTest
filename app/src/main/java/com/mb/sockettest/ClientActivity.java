@@ -7,16 +7,26 @@ import android.widget.Button;
 
 public class ClientActivity extends AppCompatActivity {
 
+    ClientTask clientTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-         findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
+        clientTask = new ClientTask(this);
+
+        findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 (new ClientTask(ClientActivity.this)).execute();
+                 clientTask.execute();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clientTask.timer.cancel();
     }
 }

@@ -2,6 +2,7 @@ package com.mb.sockettest;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -24,6 +25,9 @@ public class ServerThread extends Thread {
 
     int Counter = 0;
 
+    MediaPlayer mPlayer;
+    Timer timer = new Timer();
+
     public ServerThread(Activity activity) {
         this.activity = activity;
     }
@@ -42,6 +46,7 @@ public class ServerThread extends Thread {
 
         try {
             serverSocket = new ServerSocket(serverPORT);
+            mPlayer = MediaPlayer.create(activity, R.raw.tick);
             for(;;) {
                 socket = serverSocket.accept();
                 socket.setTcpNoDelay(true);
@@ -90,13 +95,13 @@ public class ServerThread extends Thread {
 
     private void startCounter() {
 
-        final Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             boolean colored = false;
 
             @Override
             public void run() {
                 Counter++;
+                mPlayer.start();
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -111,7 +116,7 @@ public class ServerThread extends Thread {
                 });
                 Log.d("TIME", Counter + "");
             }
-        }, 0, 1000);
+        }, 0, 2000);
 
         activity.findViewById(R.id.stopTimerBtn_Server).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,5 +127,15 @@ public class ServerThread extends Thread {
 
     }
 
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        timer.cancel();
+    }
 }
 
