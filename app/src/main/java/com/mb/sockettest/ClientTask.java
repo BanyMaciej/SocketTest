@@ -46,7 +46,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         DataInputStream inStream = null;
         DataOutputStream outStream = null;
 
-        int AMOUNT = 20;
+        int AMOUNT = 3;
 
         try {
             socket = new Socket(SocketAddress, SocketPORT);
@@ -73,16 +73,10 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                     suma += diff;
                 }
             }
-            long avg = suma/c;
-            Log.d("DEBUG", c + ", average: " + avg);
 
-            t1 = System.nanoTime();
+
             outStream.writeChar('s');
-            //startCounter((int) (avg/2000000));
-            inStream.readChar();
-            t2 = System.nanoTime();
-
-            Log.d("DEBUG", "real delay: "+ ((t2-t1)/1000000));
+            startCounter((int) (suma/(2000000*c)));
 
 
         } catch (IOException e) {
