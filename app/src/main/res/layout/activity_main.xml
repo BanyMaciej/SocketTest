@@ -11,7 +11,7 @@
         android:id="@+id/serverButton"
         android:layout_width="0dp"
         android:layout_height="62dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.33"
         android:text="SERVER"
         tools:layout_editor_absoluteX="217dp"
         tools:layout_editor_absoluteY="23dp" />
@@ -20,9 +20,16 @@
         android:id="@+id/clientButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.33"
         android:text="CLIENT"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="185dp" />
+
+    <Button
+        android:id="@+id/soundTestButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.33"
+        android:text="soundTest" />
 
 </LinearLayout>

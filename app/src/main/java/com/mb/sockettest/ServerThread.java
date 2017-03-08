@@ -3,6 +3,8 @@ package com.mb.sockettest;
 import android.app.Activity;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -60,6 +62,7 @@ public class ServerThread extends Thread {
                 }
 
                 if( inStream.readChar() == 's' ) {
+                    outStream.writeChar('s');
                     startCounter();
                 }
             }
@@ -91,38 +94,42 @@ public class ServerThread extends Thread {
         }
     }
 
+//    private void startCounter() {
+//
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            boolean colored = false;
+//
+//            @Override
+//            public void run() {
+//                Counter++;
+//                mPlayer.start();
+//                activity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if( !colored ) {
+//                            activity.findViewById(R.id.startButton).setBackgroundColor(Color.BLUE);
+//                            colored = true;
+//                        } else {
+//                            activity.findViewById(R.id.startButton).setBackgroundColor(Color.WHITE);
+//                            colored = false;
+//                        }
+//                    }
+//                });
+//                Log.d("TIME", Counter + "");
+//            }
+//        }, 0, 1000);
+//
+//        activity.findViewById(R.id.stopTimerBtn_Server).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                timer.cancel();
+//            }
+//        });
+//
+//    }
+
     private void startCounter() {
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            boolean colored = false;
-
-            @Override
-            public void run() {
-                Counter++;
-                mPlayer.start();
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if( !colored ) {
-                            activity.findViewById(R.id.startButton).setBackgroundColor(Color.BLUE);
-                            colored = true;
-                        } else {
-                            activity.findViewById(R.id.startButton).setBackgroundColor(Color.WHITE);
-                            colored = false;
-                        }
-                    }
-                });
-                Log.d("TIME", Counter + "");
-            }
-        }, 0, 1000);
-
-        activity.findViewById(R.id.stopTimerBtn_Server).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timer.cancel();
-            }
-        });
-
+        mPlayer.start();
     }
 
     @Override

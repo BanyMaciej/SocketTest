@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -59,11 +60,12 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             long suma = 0;
             outStream.writeInt(AMOUNT);
             int c = 0;
+            long t1 = 0, t2 = 0;
             for(int i = 0; i < AMOUNT; i++ ) {
-                long t1 = System.nanoTime();
+                t1 = System.nanoTime();
                 outStream.writeChar('a');
                 inStream.readChar();
-                long t2 = System.nanoTime();
+                t2 = System.nanoTime();
                 long diff = t2-t1;
                 Log.d("DEBUG", "timeDiff: " + diff);
                 if( diff < 100000000L ) {
@@ -74,8 +76,14 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             long avg = suma/c;
             Log.d("DEBUG", c + ", average: " + avg);
 
+            t1 = System.nanoTime();
             outStream.writeChar('s');
-            startCounter((int) (avg/2000000));
+            //startCounter((int) (avg/2000000));
+            inStream.readChar();
+            t2 = System.nanoTime();
+
+            Log.d("DEBUG", "real delay: "+ ((t2-t1)/1000000));
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,45 +114,55 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+//    private void startCounter(int delay) {
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            boolean colored = false;
+//            @Override
+//            public void run() {
+//                Counter++;
+//                mPlayer.start();
+//                callingActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if( !colored ) {
+//                            callingActivity.findViewById(R.id.sendButton).setBackgroundColor(Color.BLUE);
+//                            colored = true;
+//                        } else {
+//                            callingActivity.findViewById(R.id.sendButton).setBackgroundColor(Color.WHITE);
+//                            colored = false;
+//                        }
+//                    }
+//                });
+//
+//                if( callingActivity.isFinishing() ) {
+//                    Log.d("DEBUG", "is finishing");
+//                    timer.cancel();
+//                }
+//              //  Log.d("TIME-D", Counter + "");
+//            }
+//        }, delay, 1000);
+//
+//        callingActivity.findViewById(R.id.stopTimerBtn_Client).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                timer.cancel();
+//            }
+//        });
+//
+//    }
+
     private void startCounter(int delay) {
+        Log.d("DEBUG", "Delay: " + delay);
         timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            boolean colored = false;
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Counter++;
                 mPlayer.start();
-                callingActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if( !colored ) {
-                            callingActivity.findViewById(R.id.sendButton).setBackgroundColor(Color.BLUE);
-                            colored = true;
-                        } else {
-                            callingActivity.findViewById(R.id.sendButton).setBackgroundColor(Color.WHITE);
-                            colored = false;
-                        }
-                    }
-                });
-
-                if( callingActivity.isFinishing() ) {
-                    Log.d("DEBUG", "is finishing");
-                    timer.cancel();
-                }
-              //  Log.d("TIME-D", Counter + "");
             }
-        }, delay, 1000);
-
-        callingActivity.findViewById(R.id.stopTimerBtn_Client).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timer.cancel();
-            }
-        });
+        }, delay);
 
     }
-
-
 
 
 }
