@@ -21,4 +21,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="STOP TIMER" />
+
+    <EditText
+        android:id="@+id/ipEditText"
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="192.168.0.110" />
 </LinearLayout>

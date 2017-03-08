@@ -25,7 +25,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
 
     int SocketPORT = 4321;
-    String SocketAddress = "192.168.0.102";
+    String SocketAddress = "192.168.0.101";
 
     long timeDiff = -1;
     Activity callingActivity;
@@ -34,8 +34,9 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
     MediaPlayer mPlayer;
     Timer timer;
 
-    public ClientTask(Activity activity) {
+    public ClientTask(Activity activity, String SocketAddress) {
         callingActivity = activity;
+        this.SocketAddress = SocketAddress;
     }
 
     @Override
@@ -44,17 +45,13 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         DataInputStream inStream = null;
         DataOutputStream outStream = null;
 
-        long sendTime, receiveTime;
-
-        String outMessage = "";
-
-        int AMOUNT = 10;
+        int AMOUNT = 20;
 
         try {
             socket = new Socket(SocketAddress, SocketPORT);
             socket.setTcpNoDelay(true);
 
-            mPlayer = MediaPlayer.create(callingActivity, R.raw.tick);
+            mPlayer = MediaPlayer.create(callingActivity, R.raw.ticktock);
 
             inStream = new DataInputStream(socket.getInputStream());
             outStream = new DataOutputStream(socket.getOutputStream());
@@ -129,7 +126,12 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                         }
                     }
                 });
-                Log.d("TIME-D", Counter + "");
+
+                if( callingActivity.isFinishing() ) {
+                    Log.d("DEBUG", "is finishing");
+                    timer.cancel();
+                }
+              //  Log.d("TIME-D", Counter + "");
             }
         }, delay, 1000);
 
@@ -142,8 +144,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-    }
+
+
+
 }

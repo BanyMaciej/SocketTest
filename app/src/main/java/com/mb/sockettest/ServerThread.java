@@ -28,13 +28,11 @@ public class ServerThread extends Thread {
     MediaPlayer mPlayer;
     Timer timer = new Timer();
 
+    ServerSocket serverSocket;
+
     public ServerThread(Activity activity) {
         this.activity = activity;
     }
-
-    ServerSocket serverSocket;
-    long inData = 0;
-    long x1p = 0, x1k = 0, yk = 0;
 
     static int serverPORT = 4321;
 
@@ -46,7 +44,7 @@ public class ServerThread extends Thread {
 
         try {
             serverSocket = new ServerSocket(serverPORT);
-            mPlayer = MediaPlayer.create(activity, R.raw.tick);
+            mPlayer = MediaPlayer.create(activity, R.raw.ticktock);
             for(;;) {
                 socket = serverSocket.accept();
                 socket.setTcpNoDelay(true);
@@ -116,7 +114,7 @@ public class ServerThread extends Thread {
                 });
                 Log.d("TIME", Counter + "");
             }
-        }, 0, 2000);
+        }, 0, 1000);
 
         activity.findViewById(R.id.stopTimerBtn_Server).setOnClickListener(new View.OnClickListener() {
             @Override
