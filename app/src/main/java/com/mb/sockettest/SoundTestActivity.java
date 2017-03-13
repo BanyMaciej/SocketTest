@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -27,6 +29,7 @@ public class SoundTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sound_test);
 
         mRecorder = new MediaRecorder();
+
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
@@ -71,6 +74,7 @@ public class SoundTestActivity extends AppCompatActivity {
                         calcDiff();
                     }
                 }, 1000);
+                ((TextView) view).setClickable(false);
             }
         });
     }

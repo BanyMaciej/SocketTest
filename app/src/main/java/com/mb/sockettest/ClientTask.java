@@ -52,7 +52,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             socket = new Socket(SocketAddress, SocketPORT);
             socket.setTcpNoDelay(true);
 
-            mPlayer = MediaPlayer.create(callingActivity, R.raw.ticktock);
+            mPlayer = MediaPlayer.create(callingActivity, R.raw.tick);
 
             inStream = new DataInputStream(socket.getInputStream());
             outStream = new DataOutputStream(socket.getOutputStream());
@@ -153,6 +153,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             @Override
             public void run() {
                 mPlayer.start();
+
             }
         }, delay);
 

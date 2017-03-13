@@ -46,7 +46,7 @@ public class ServerThread extends Thread {
 
         try {
             serverSocket = new ServerSocket(serverPORT);
-            mPlayer = MediaPlayer.create(activity, R.raw.ticktock);
+            mPlayer = MediaPlayer.create(activity, R.raw.tick);
             for(;;) {
                 socket = serverSocket.accept();
                 socket.setTcpNoDelay(true);
@@ -135,6 +135,7 @@ public class ServerThread extends Thread {
     @Override
     public void interrupt() {
         super.interrupt();
+        mPlayer.release();
         try {
             serverSocket.close();
         } catch (IOException e) {
