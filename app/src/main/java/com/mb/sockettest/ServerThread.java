@@ -46,7 +46,7 @@ public class ServerThread extends Thread {
 
         try {
             serverSocket = new ServerSocket(serverPORT);
-            mPlayer = MediaPlayer.create(activity, R.raw.tick);
+            mPlayer = MediaPlayer.create(activity, R.raw.test);
             for(;;) {
                 socket = serverSocket.accept();
                 socket.setTcpNoDelay(true);

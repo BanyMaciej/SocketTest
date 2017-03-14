@@ -46,13 +46,13 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         DataInputStream inStream = null;
         DataOutputStream outStream = null;
 
-        int AMOUNT = 3;
+        int AMOUNT = 4;
 
         try {
             socket = new Socket(SocketAddress, SocketPORT);
             socket.setTcpNoDelay(true);
 
-            mPlayer = MediaPlayer.create(callingActivity, R.raw.tick);
+            mPlayer = MediaPlayer.create(callingActivity, R.raw.test);
 
             inStream = new DataInputStream(socket.getInputStream());
             outStream = new DataOutputStream(socket.getOutputStream());
@@ -68,7 +68,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                 t2 = System.nanoTime();
                 long diff = t2-t1;
                 Log.d("DEBUG", "timeDiff: " + diff);
-                if( diff < 100000000L ) {
+                if( diff < 100000000L && i != 0 ) {
                     c++;
                     suma += diff;
                 }
