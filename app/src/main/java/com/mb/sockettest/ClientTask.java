@@ -1,5 +1,6 @@
 package com.mb.sockettest;
 
+import android.Manifest;
 import android.app.Activity;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -23,7 +24,6 @@ import java.util.TimerTask;
  */
 
 public class ClientTask extends AsyncTask<Void, Void, Void> {
-
 
     int SocketPORT = 4321;
     String SocketAddress = "192.168.0.101";
@@ -60,11 +60,16 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             long suma = 0;
             outStream.writeInt(AMOUNT);
             int c = 0;
-            long t1 = 0, t2 = 0;
+            long t1, t2;
             for(int i = 0; i < AMOUNT; i++ ) {
                 t1 = System.nanoTime();
-                outStream.writeChar('a');
-                inStream.readChar();
+                //chars
+//                outStream.writeChar('a');
+//                inStream.readChar();
+                //bytes
+                outStream.writeByte(Constans.TEST_SIGNAL);
+                inStream.readByte();
+
                 t2 = System.nanoTime();
                 long diff = t2-t1;
                 Log.d("DEBUG", "timeDiff: " + diff);
@@ -73,9 +78,11 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                     suma += diff;
                 }
             }
+            //chars
+//            outStream.writeChar('s');
+            //bytes
+            outStream.writeByte(Constans.START_SIGNAL);
 
-
-            outStream.writeChar('s');
             startCounter((int) (suma/(2000000*c)));
 
 

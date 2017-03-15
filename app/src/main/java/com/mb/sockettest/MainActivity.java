@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import java.net.ServerSocket;
+import java.security.Permission;
+import java.security.Permissions;
+import java.util.jar.Manifest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
          findViewById(R.id.serverButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.soundTestButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SoundTestActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TryActivity.class);
                 startActivity(intent);
             }
         });

@@ -20,7 +20,7 @@ public class ServerActivity extends AppCompatActivity {
 
         serverThread = new ServerThread(this);
 
-         findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( !serverThread.isAlive() ) {
@@ -47,6 +47,10 @@ public class ServerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        serverThread.interrupt();
+        try {
+            serverThread.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

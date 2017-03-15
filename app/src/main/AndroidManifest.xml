@@ -27,7 +27,8 @@
         <activity
             android:name=".ClientActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SoundTestActivity"></activity>
+        <activity android:name=".SoundTestActivity" />
+        <activity android:name=".TryActivity"></activity>
     </application>
 
 </manifest>
