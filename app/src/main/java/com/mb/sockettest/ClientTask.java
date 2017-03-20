@@ -47,7 +47,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
         try {
             socket = new Socket(SocketAddress, SocketPORT);
-            socket.setTcpNoDelay(false);
+            socket.setTcpNoDelay(true);
 
             mPlayer = MediaPlayer.create(callingActivity, songName);
 

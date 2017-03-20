@@ -51,6 +51,16 @@ public class ServerActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            serverThread.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         try {

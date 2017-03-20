@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
+        <callingActivity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -20,15 +20,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
+        </callingActivity>
+        <callingActivity
             android:name=".ServerActivity"
             android:screenOrientation="portrait" />
-        <activity
+        <callingActivity
             android:name=".ClientActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SoundTestActivity" />
-        <activity android:name=".TryActivity"></activity>
+        <callingActivity android:name=".SoundTestActivity" />
+        <callingActivity android:name=".TryActivity"></callingActivity>
     </application>
 
 </manifest>

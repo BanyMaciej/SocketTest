@@ -16,7 +16,7 @@ import java.util.Timer;
 
 public class ServerThread extends Thread {
 
-    Activity activity;
+    Activity callingActivity;
 
     int Counter = 0;
 
@@ -25,8 +25,8 @@ public class ServerThread extends Thread {
 
     ServerSocket serverSocket;
 
-    public ServerThread(Activity activity) {
-        this.activity = activity;
+    public ServerThread(Activity callingActivity) {
+        this.callingActivity = callingActivity;
     }
 
     static int serverPORT = 4321;
@@ -40,11 +40,11 @@ public class ServerThread extends Thread {
 
         try {
             serverSocket = new ServerSocket(serverPORT);
-            mPlayer = MediaPlayer.create(activity, songName);
+            mPlayer = MediaPlayer.create(callingActivity, songName);
 
             for(;;) {
                 socket = serverSocket.accept();
-                socket.setTcpNoDelay(false);
+                socket.setTcpNoDelay(true);
 
                 inStream = new DataInputStream(socket.getInputStream());
                 outStream = new DataOutputStream(socket.getOutputStream());
