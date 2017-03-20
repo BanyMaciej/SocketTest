@@ -30,6 +30,7 @@ public class ServerThread extends Thread {
     }
 
     static int serverPORT = 4321;
+    int songName = R.raw.ticktock;
 
     @Override
     public void run() {
@@ -39,10 +40,11 @@ public class ServerThread extends Thread {
 
         try {
             serverSocket = new ServerSocket(serverPORT);
-            mPlayer = MediaPlayer.create(activity, R.raw.test);
+            mPlayer = MediaPlayer.create(activity, songName);
+
             for(;;) {
                 socket = serverSocket.accept();
-                socket.setTcpNoDelay(true);
+                socket.setTcpNoDelay(false);
 
                 inStream = new DataInputStream(socket.getInputStream());
                 outStream = new DataOutputStream(socket.getOutputStream());

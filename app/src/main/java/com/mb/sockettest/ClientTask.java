@@ -19,14 +19,11 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by Maciek on 2017-03-07.
- */
-
 public class ClientTask extends AsyncTask<Void, Void, Void> {
 
     int SocketPORT = 4321;
     String SocketAddress = "192.168.0.101";
+    int songName = R.raw.ticktock;
 
     long timeDiff = -1;
     Activity callingActivity;
@@ -50,13 +47,13 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
         try {
             socket = new Socket(SocketAddress, SocketPORT);
-            socket.setTcpNoDelay(true);
+            socket.setTcpNoDelay(false);
 
-            mPlayer = MediaPlayer.create(callingActivity, R.raw.test);
+            mPlayer = MediaPlayer.create(callingActivity, songName);
 
             inStream = new DataInputStream(socket.getInputStream());
             outStream = new DataOutputStream(socket.getOutputStream());
-            Log.d("DEBUG", "start");
+
             long suma = 0;
             outStream.writeInt(AMOUNT);
             int c = 0;
