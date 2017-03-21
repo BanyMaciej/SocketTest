@@ -1,12 +1,8 @@
 package com.mb.sockettest;
 
-import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ToggleButton;
-
-import java.io.IOException;
 
 public class ServerActivity extends AppCompatActivity {
     ServerThread serverThread;
@@ -25,12 +21,6 @@ public class ServerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if( !serverThread.isAlive() ) {
                     serverThread.start();
-                } else {
-                    try {
-                        serverThread.mPlayer.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         });

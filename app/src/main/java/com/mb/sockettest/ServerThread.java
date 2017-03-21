@@ -10,18 +10,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Timer;
 
-/**
- * Created by Maciek on 2017-03-07.
- */
-
 public class ServerThread extends Thread {
 
-    Activity callingActivity;
-
-    int Counter = 0;
+    private Activity callingActivity;
 
     MediaPlayer mPlayer;
-    Timer timer = new Timer();
+    private Timer timer = new Timer();
 
     ServerSocket serverSocket;
 
@@ -57,7 +51,7 @@ public class ServerThread extends Thread {
 //                    outStream.writeChar('a');
                     //bytes
                     inStream.readByte();
-                    outStream.writeByte(Constans.TEST_SIGNAL);
+                    outStream.writeByte(MyConstans.TEST_SIGNAL);
                 }
                 //chars
 //                if( inStream.readChar() == 's' ) {
@@ -66,8 +60,8 @@ public class ServerThread extends Thread {
 //                }
 
                 //bytes
-                if( inStream.readByte() == Constans.START_SIGNAL ) {
-                    //outStream.writeByte(Constans.START_SIGNAL);
+                if( inStream.readByte() == MyConstans.START_SIGNAL ) {
+                    //outStream.writeByte(MyConstans.START_SIGNAL);
                     startPlayer();
                     //interrupt();
                 }

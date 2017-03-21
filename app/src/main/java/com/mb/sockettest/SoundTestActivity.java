@@ -1,15 +1,12 @@
 package com.mb.sockettest;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -74,7 +71,7 @@ public class SoundTestActivity extends AppCompatActivity {
                         calcDiff();
                     }
                 }, 1000);
-                ((TextView) view).setClickable(false);
+                view.setClickable(false);
             }
         });
     }
