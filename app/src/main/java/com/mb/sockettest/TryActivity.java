@@ -43,7 +43,7 @@ public class TryActivity extends AppCompatActivity {
     }
 
     public double calculateDistance(double decibels, double frequency) {
-        double ex = (27.55 - (20* Math.log10(frequency)) + Math.abs(decibels)) / 20;
+        double ex = (-27.55 - (20* Math.log10(frequency)) + Math.abs(decibels)) / 20;
         return Math.pow(10.00, ex);
     }
 
